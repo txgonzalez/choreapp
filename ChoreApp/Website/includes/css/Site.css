@@ -1,0 +1,68 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+i.fa {
+    padding-top: 10px;
+}
+
+i.fa-check{
+    font-size: x-large;
+    color:red;
+    cursor: pointer;
+}
+i.fa-checked{
+    font-size: x-large;
+    color:green;
+}
+
+i.fa-lock, i.fa-unlock {
+    width:5%;
+    text-align:center;
+    position:relative;
+    cursor: pointer;
+}
+
+i.fa-usd {
+    width: 80%;
+    text-align: right;
+    z-index: -100;
+}
+
+i.date {
+    text-align: left;
+    color: gold;
+    padding-top: 10px;
+}
+
+div.navbar-header {
+    width:100%;
+    text-align:center;
+}
+
+div.navbar-inverse {
+    background-color: #666;
+    border-color: #080808; 
+}
+

@@ -1,0 +1,68 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'angular-ui-bootstrap' ]
+2 info using npm@2.14.12
+3 info using node@v4.2.4
+4 verbose install initial load of C:\Users\gonzalt\OneDrive - kochind.com\Documents\Visual Studio 2015\Projects\ChoreApp\package.json
+5 verbose readDependencies loading dependencies from C:\Users\gonzalt\OneDrive - kochind.com\Documents\Visual Studio 2015\Projects\ChoreApp\package.json
+6 silly cache add args [ 'angular-ui-bootstrap', null ]
+7 verbose cache add spec angular-ui-bootstrap
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: 'angular-ui-bootstrap',
+8 silly cache add   scope: null,
+8 silly cache add   name: 'angular-ui-bootstrap',
+8 silly cache add   rawSpec: '',
+8 silly cache add   spec: 'latest',
+8 silly cache add   type: 'tag' }
+9 silly addNamed angular-ui-bootstrap@latest
+10 verbose addNamed "latest" is being treated as a dist-tag for angular-ui-bootstrap
+11 info addNameTag [ 'angular-ui-bootstrap', 'latest' ]
+12 silly mapToRegistry name angular-ui-bootstrap
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry http://registry.npmjs.org/
+15 silly mapToRegistry uri http://registry.npmjs.org/angular-ui-bootstrap
+16 verbose addNameTag registry:http://registry.npmjs.org/angular-ui-bootstrap not in flight; fetching
+17 verbose request uri http://registry.npmjs.org/angular-ui-bootstrap
+18 verbose request no auth needed
+19 info attempt registry request try #1 at 8:31:23 AM
+20 verbose request id f829d5cf3ad6afbf
+21 http request GET http://registry.npmjs.org/angular-ui-bootstrap
+22 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 127.0.0.1:8888
+23 info attempt registry request try #2 at 8:32:24 AM
+24 http request GET http://registry.npmjs.org/angular-ui-bootstrap
+25 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 127.0.0.1:8888
+26 info attempt registry request try #3 at 8:34:25 AM
+27 http request GET http://registry.npmjs.org/angular-ui-bootstrap
+28 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 127.0.0.1:8888
+29 info attempt registry request try #4 at 8:36:26 AM
+30 http request GET http://registry.npmjs.org/angular-ui-bootstrap
+31 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 127.0.0.1:8888
+32 info attempt registry request try #5 at 8:38:27 AM
+33 http request GET http://registry.npmjs.org/angular-ui-bootstrap
+34 verbose stack Error: connect ECONNREFUSED 127.0.0.1:8888
+34 verbose stack     at Object.exports._errnoException (util.js:870:11)
+34 verbose stack     at exports._exceptionWithHostPort (util.js:893:20)
+34 verbose stack     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1063:14)
+35 verbose cwd C:\Users\gonzalt\OneDrive - kochind.com\Documents\Visual Studio 2015\Projects\ChoreApp
+36 error Windows_NT 6.1.7601
+37 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "angular-ui-bootstrap"
+38 error node v4.2.4
+39 error npm  v2.14.12
+40 error code ECONNREFUSED
+41 error errno ECONNREFUSED
+42 error syscall connect
+43 error Error: connect ECONNREFUSED 127.0.0.1:8888
+43 error     at Object.exports._errnoException (util.js:870:11)
+43 error     at exports._exceptionWithHostPort (util.js:893:20)
+43 error     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1063:14)
+43 error  { [Error: connect ECONNREFUSED 127.0.0.1:8888]
+43 error   code: 'ECONNREFUSED',
+43 error   errno: 'ECONNREFUSED',
+43 error   syscall: 'connect',
+43 error   address: '127.0.0.1',
+43 error   port: 8888 }
+44 error If you are behind a proxy, please make sure that the
+44 error 'proxy' config is set properly.  See: 'npm help config'
+45 verbose exit [ 1, true ]
