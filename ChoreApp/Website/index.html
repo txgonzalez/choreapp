@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="container body-content">
-            
+
             <!--<button type="button" class="btn btn-primary btn-sm col-sm-2 col-sm-offset-1 col-xs-4" data-toggle="modal" data-target="#removeChoreModal">- REMOVE -</button>-->
             <!-- Remove Chore Modal -->
             <!--<div class="modal fade" id="removeChoreModal" tabindex="-1" role="dialog" aria-labelledby="removeChoreModalLabel">
@@ -118,13 +118,13 @@
                         <th ng-show="{{getParentSuccess}}" name="activeState">Active</th>
                         <th>Name</th>
                         <th>Value</th>
-                        <th>Complete</th>
+                        <!--<th>Complete</th>-->
                         <th>Checked</th>
                     </tr>
                 </thead>
                 <tbody id="choreTableBody">
                     <tr ng-repeat="chore in chores | filter:getActiveFilter">
-                    <!--<tr ng-repeat="chore in chores | filter:undefined" >-->
+                        <!--<tr ng-repeat="chore in chores | filter:undefined">-->
                         <td ng-show="{{getParentSuccess}}" name="activeState">
                             <button ng-click="toggleActiveChore($index)">{{chore.choreActive}}</button>
                         </td>
@@ -134,10 +134,10 @@
                         <td>
                             {{ chore.choreValue | currency }}
                         </td>
-                        <td>
+                        <!--<td>
                             <i name="childCheckmark" class="fa fa-check" ng-click="childComplete($index)"
                                ng-class="checkCompletedDate($index)" index-child-value="{{$index}}"></i>
-                        </td>
+                        </td>-->
                         <td>
                             <i name="parentCheckmark" class="fa fa-check" ng-click="choreVerifiedDate($index)"
                                ng-class="checkVerifiedDate($index)" index-parent-value="{{$index}}"></i>
@@ -203,11 +203,12 @@
             TODO List:<br />
             <p> - use ng-view to update lock icon</p>
             <p> - introduce date variable/refresh daily and reporting for weekly/monthly roll up</p>
-            <p> - integrate with database for consistancy across devices -> using local storage only right now</p>
+            <p> - create new api gateway for updating single chore -> active, completedate, verifydate</p>
+            <br/>
+            <br/>
+            <p>{"choreName": "chore8","choreValue": 0.70,"choreActive": true,"choreCompletedDate": null,"choreVerifiedDate": null,"choreID": 8}</p>
         </div>
         <!--END REMOVE LATER-->
-
-
         <!-- Parental Lock Modal -->
         <div class="modal fade" id="parentLockModal" tabindex="-1" role="dialog" aria-labelledby="parentLockModalLabel">
             <div class="modal-dialog" role="document">

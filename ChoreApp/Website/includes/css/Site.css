@@ -27,20 +27,21 @@ i.fa {
     padding-top: 10px;
 }
 
-i.fa-check{
+i.fa-check {
     font-size: x-large;
-    color:red;
+    color: red;
     cursor: pointer;
 }
-i.fa-checked{
+
+i.fa-checked {
     font-size: x-large;
-    color:green;
+    color: green;
 }
 
 i.fa-lock, i.fa-unlock {
-    width:5%;
-    text-align:center;
-    position:relative;
+    width: 5%;
+    text-align: center;
+    position: relative;
     cursor: pointer;
 }
 
@@ -54,15 +55,28 @@ i.date {
     text-align: left;
     color: gold;
     padding-top: 10px;
+    padding-left: 15px;
 }
 
 div.navbar-header {
-    width:100%;
-    text-align:center;
+    width: 100%;
+    text-align: center;
 }
 
 div.navbar-inverse {
     background-color: #666;
-    border-color: #080808; 
+    border-color: #080808;
 }
 
+ @media (max-width: 767px) {
+    div.navbar {
+         min-height: 40px;
+    }
+    body {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    div.navbar-header > i {
+        font-size: large;
+    }
+}

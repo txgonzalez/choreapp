@@ -2,31 +2,54 @@
 var password = '1234';
 
 // Create the AngularJS app
-var app2 = angular.module('Chores', ['ChoreStorageService', 'ParentSuccessService', 'ui.bootstrap']);
+var app2 = angular.module('Chores', ['AwsService', 'ParentSuccessService', 'ui.bootstrap']);
 //var app2 = angular.module('Chores', ['ChoreStorageService']);
 
 //Create the AngularJS module named StorageService
 //Create getLocalStorage service to access UpdateChores and getChores method  
-var storageService = angular.module('ChoreStorageService', []);
-storageService.factory('getChoresLocalStorage', function () {
-    var choreList = {};
+//var storageService = angular.module('ChoreStorageService', []);
+//storageService.factory('getChoresLocalStorage', function () {
+//    var choreList = {};
+//    return {
+//        list: choreList,
+//        updateChores: function (choresArr) {
+//            if (window.localStorage && choresArr) {
+//                //Local Storage to add Data  
+//                localStorage.setItem("chores", angular.toJson(choresArr));
+//            }
+//            choreList = choresArr;
+//        }
+//        ,
+//        getChores: function () {
+//            //Get data from Local Storage  
+//            choreList = angular.fromJson(localStorage.getItem("chores"));
+//            return choreList ? choreList : [];
+//        }
+//    };
+//});
+
+var AwsService = angular.module('AwsService', []);
+AwsService.factory('getAwsStorage', ['$http', function ($http) {
+    var choreList = [];
     return {
         list: choreList,
-        updateChores: function (choresArr) {
-            if (window.localStorage && choresArr) {
-                //Local Storage to add Data  
-                localStorage.setItem("chores", angular.toJson(choresArr));
-            }
-            choreList = choresArr;
-
+        updateChores: function (chore) {
+            console.log(JSON.stringify(chore));
+            return $http({
+                method: 'POST',
+                url: 'https://0trs7vs6i6.execute-api.us-east-1.amazonaws.com/prod/choreid',
+                data: JSON.stringify(chore)
+            });
         },
         getChores: function () {
-            //Get data from Local Storage  
-            choreList = angular.fromJson(localStorage.getItem("chores"));
-            return choreList ? choreList : [];
+            //Get data from AWS
+            return $http({
+                method: 'GET',
+                url: 'https://0trs7vs6i6.execute-api.us-east-1.amazonaws.com/prod/choreid/getall'
+            });
         }
     };
-});
+}]);
 
 var parentSuccessService = angular.module('ParentSuccessService', []);
 parentSuccessService.factory('getParentSuccess', function () {
@@ -51,7 +74,7 @@ parentSuccessService.factory('getParentSuccess', function () {
 
 
 // Create the Controller
-app2.controller('ChoresController', ['$scope', 'getChoresLocalStorage', 'getParentSuccess', '$window', function ($scope, getChoresLocalStorage, getParentSuccess, $window) {
+app2.controller('ChoresController', ['$scope', 'getParentSuccess', 'getAwsStorage', '$window', function ($scope, getParentSuccess, getAwsStorage, $window) {
 
     var date = new Date();
     var dateNow = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
@@ -60,20 +83,48 @@ app2.controller('ChoresController', ['$scope', 'getChoresLocalStorage', 'getPare
 
     $scope.appTitle = "Today's Chores - " + dateNow;
     //Read the Chore List from LocalStorage  
-    $scope.chores = getChoresLocalStorage.getChores();
+    //$scope.chores = getChoresLocalStorage.getChores();
+
+    $scope.chores = [];
+    getAwsStorage.getChores().success(updateChores);
+
+    function updateChores(data) {
+        console.log(data);
+        $scope.chores = [];
+        angular.forEach(data.Items, function (c) {
+            var chore = {};
+            chore.choreID = parseInt(c.choreID.N);
+            chore.choreName = c.choreName.S;
+            chore.choreActive = c.choreActive.BOOL;
+            chore.choreValue = parseFloat(c.choreValue.N);
+            if (c.choreCompletedDate !== undefined) {
+                chore.choreCompletedDate = c.choreCompletedDate.S;
+            }
+            if (c.choreVerifiedDate !== undefined) {
+                chore.choreVerifiedDate = c.choreVerifiedDate.S;
+            }
+            $scope.chores.push(chore);
+        });
+    }
 
     //Add Chore - using AngularJS push to add Chore in the Chore Object  
     //Call Update Chore to update the locally stored Chore List  
     //Reset the AngularJS Chore scope  
     $scope.addChore = function () {
-        $scope.chores.push({
+        var newChore = {
             'choreName': $scope.choreName,
-            'choreValue': $scope.choreValue,
+            'choreValue': parseFloat($scope.choreValue),
             'choreActive': true,
-            'choreCompletedDate': $scope.choreCompletedDate,
-            'choreVerifiedDate': $scope.choreVerifiedDate
-        });
-        getChoresLocalStorage.updateChores($scope.chores);
+            'choreCompletedDate': null,
+            'choreVerifiedDate': null,
+            'choreID': $scope.chores.length + 1
+        };
+        console.log(newChore);
+        getAwsStorage.updateChores(newChore)
+            .success(function (data) {
+                console.log(data);
+                getAwsStorage.getChores().success(updateChores);
+            });
     };
 
     //Delete Chore - Using AngularJS splice to remove the chore row from the Chore list  
@@ -103,7 +154,7 @@ app2.controller('ChoresController', ['$scope', 'getChoresLocalStorage', 'getPare
         else {
             $scope.chores[index].choreActive = true;
         }
-        getChoresLocalStorage.updateChores($scope.chores);
+        getAwsStorage.updateChores($scope.chores);
     };
 
     $scope.getParentSuccess = getParentSuccess.getSuccess();
@@ -128,11 +179,11 @@ app2.controller('ChoresController', ['$scope', 'getChoresLocalStorage', 'getPare
         var confirm = $window.confirm("Are you sure?");
         if (confirm) {
             $scope.chores[index].choreCompletedDate = dateNow;
-            getChoresLocalStorage.updateChores($scope.chores);
+            getAwsStorage.updateChores($scope.chores);
         }
     };
     $scope.checkCompletedDate = function (index) {
-        if ($scope.chores[index].choreCompletedDate != null) {
+        if ($scope.chores[index].choreCompletedDate !== undefined) {
             return "fa fa-check fa-checked";
         }
         else {
@@ -146,10 +197,10 @@ app2.controller('ChoresController', ['$scope', 'getChoresLocalStorage', 'getPare
             return; //click of lock icon;
         }
         $scope.chores[index].choreVerifiedDate = dateNow;
-        getChoresLocalStorage.updateChores($scope.chores);
+        getAwsStorage.updateChores($scope.chores[index]);
     };
     $scope.checkVerifiedDate = function (index) {
-        if ($scope.chores[index].choreVerifiedDate != null) {
+        if ($scope.chores[index].choreVerifiedDate !== undefined) {
             return "fa fa-check fa-checked";
         }
         else {
